@@ -6,64 +6,54 @@ import pro.sky.java.course2.employeelist.exception.EmployeeAlreadyAddedException
 import pro.sky.java.course2.employeelist.exception.EmployeeNotFoundException;
 import pro.sky.java.course2.employeelist.exception.EmployeeStorageIsFullException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class EmployeeService {
-    private Employee[] employeeList;
+    private List<Employee> employeeList;
 
     public EmployeeService() {
-        this.employeeList = new Employee[5];
+        this.employeeList = new ArrayList<>();
     }
 
-    public Employee[] getEmployeeList() {
+    public List<Employee> getEmployeeList() {
         return employeeList;
     }
 
-    public void addEmployee(String firstName, String lastName) {
+    public Employee addEmployee(String firstName, String lastName) {
 
         Employee employee = new Employee(firstName, lastName);
 
-        for (int i = 0; i < this.employeeList.length; i++) {
-            if (employee.equals(this.employeeList[i])) {
-                throw new EmployeeAlreadyAddedException();
-            }
+        if (this.employeeList.contains(employee)) {
+            throw new EmployeeAlreadyAddedException();
+        } else {
+            this.employeeList.add(employee);
+            return employee;
         }
-
-        for (int i = 0; i < this.employeeList.length; i++) {
-            if (this.employeeList[i] == null) {
-                this.employeeList[i] = employee;
-                return;
-            }
-        }
-
-        throw new EmployeeStorageIsFullException();
     }
 
     public Employee findEmployee(String firstName, String lastName) {
 
         Employee employee = new Employee(firstName, lastName);
 
-        for (int i = 0; i < this.employeeList.length; i++) {
-            if (employee.equals(this.employeeList[i])) {
-                return employee;
-            }
+        if (this.employeeList.contains(employee)) {
+            return employee;
+        } else {
+            throw new EmployeeNotFoundException();
         }
-
-        throw new EmployeeNotFoundException();
     }
 
-    public void removeEmployee(String firstName, String lastName) {
+    public Employee removeEmployee(String firstName, String lastName) {
 
         Employee employee = new Employee(firstName, lastName);
 
-        for (int i = 0; i < this.employeeList.length; i++) {
-            if (employee.equals(this.employeeList[i])) {
-                this.employeeList[i] = null;
-                return;
-            }
+        if (this.employeeList.contains(employee)) {
+            this.employeeList.remove(employee);
+            return employee;
+        } else {
+            throw new EmployeeNotFoundException();
         }
-
-        throw new EmployeeNotFoundException();
     }
 }

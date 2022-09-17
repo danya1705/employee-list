@@ -21,19 +21,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public String addEmployeeToList(@RequestParam String firstName, @RequestParam String lastName) {
-        employeeService.addEmployee(firstName, lastName);
-        return firstName + " " + lastName + " is added to list";
+    public Employee addEmployeeToList(@RequestParam String firstName, @RequestParam String lastName) {
+        return employeeService.addEmployee(firstName, lastName);
     }
 
     @GetMapping("/remove")
-    public String removeEmployeeFromList(@RequestParam String firstName, @RequestParam String lastName) {
-        employeeService.removeEmployee(firstName, lastName);
-        return firstName + " " + lastName + " is removed from list";
+    public Employee removeEmployeeFromList(@RequestParam String firstName, @RequestParam String lastName) {
+        return employeeService.removeEmployee(firstName, lastName);
     }
 
     @GetMapping("/print")
     public String printList() {
-        return Arrays.toString(employeeService.getEmployeeList());
+        return employeeService.getEmployeeList().toString();
     }
 }

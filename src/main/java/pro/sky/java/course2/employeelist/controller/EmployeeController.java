@@ -4,8 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.java.course2.employeelist.Employee;
 import pro.sky.java.course2.employeelist.service.EmployeeService;
 
-import java.util.Arrays;
-
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -16,22 +14,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/find")
-    public Employee showFindedEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee find(@RequestParam String firstName, @RequestParam String lastName) {
         return employeeService.findEmployee(firstName, lastName);
     }
 
     @GetMapping("/add")
-    public Employee addEmployeeToList(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee add(@RequestParam String firstName, @RequestParam String lastName) {
         return employeeService.addEmployee(firstName, lastName);
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployeeFromList(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee remove(@RequestParam String firstName, @RequestParam String lastName) {
         return employeeService.removeEmployee(firstName, lastName);
     }
 
-    @GetMapping("/print")
-    public String printList() {
+    @GetMapping("")
+    public String print() {
         return employeeService.getEmployeeList().toString();
     }
 }

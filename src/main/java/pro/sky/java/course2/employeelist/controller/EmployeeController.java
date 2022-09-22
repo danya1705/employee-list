@@ -29,7 +29,7 @@ public class EmployeeController {
     }
 
     @GetMapping("")
-    public String print() {
+    public String printAll() {
         return employeeService.getEmployeeList().toString();
     }
 }

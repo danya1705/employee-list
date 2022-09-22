@@ -10,25 +10,24 @@ import java.util.Map;
 
 @Service
 public class EmployeeService {
-    private final Map<Integer,Employee> employeeList;
+    private final Map<String,Employee> employeeList;
 
     public EmployeeService() {
         this.employeeList = new HashMap<>();
     }
 
-    public Map<Integer, Employee> getEmployeeList() {
+    public Map<String, Employee> getEmployeeList() {
         return employeeList;
     }
 
     public Employee addEmployee(String firstName, String lastName) {
 
         Employee employee = new Employee(firstName, lastName);
-        int employeeID = employee.hashCode();
 
-        if (this.employeeList.containsKey(employeeID)) {
+        if (this.employeeList.containsKey(employee.getName())) {
             throw new EmployeeAlreadyAddedException();
         } else {
-            this.employeeList.put(employeeID,employee);
+            this.employeeList.put(employee.getName(),employee);
             return employee;
         }
     }
@@ -36,9 +35,8 @@ public class EmployeeService {
     public Employee findEmployee(String firstName, String lastName) {
 
         Employee employee = new Employee(firstName, lastName);
-        int employeeID = employee.hashCode();
 
-        if (this.employeeList.containsKey(employeeID)) {
+        if (this.employeeList.containsKey(employee.getName())) {
             return employee;
         } else {
             throw new EmployeeNotFoundException();
@@ -48,10 +46,9 @@ public class EmployeeService {
     public Employee removeEmployee(String firstName, String lastName) {
 
         Employee employee = new Employee(firstName, lastName);
-        int employeeID = employee.hashCode();
 
-        if (this.employeeList.containsKey(employeeID)) {
-            this.employeeList.remove(employeeID);
+        if (this.employeeList.containsKey(employee.getName())) {
+            this.employeeList.remove(employee.getName());
             return employee;
         } else {
             throw new EmployeeNotFoundException();

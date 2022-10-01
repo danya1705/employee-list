@@ -1,37 +1,58 @@
 package pro.sky.java.course2.employeelist.controller;
 
 import org.springframework.web.bind.annotation.*;
-import pro.sky.java.course2.employeelist.Employee;
-import pro.sky.java.course2.employeelist.service.EmployeeService;
-
-import java.util.Arrays;
+import pro.sky.java.course2.employeelist.service.EmployeeServiceImpl;
 
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-    private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping("/find")
-    public Employee showFindedEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.findEmployee(firstName, lastName);
+    public String showFindedEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        return employeeService.findEmployee(firstName, lastName).toString();
     }
 
     @GetMapping("/add")
-    public Employee addEmployeeToList(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+    public String addEmployeeToList(
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam int departmentId,
+            @RequestParam double salary) {
+        return employeeService.addEmployee(firstName, lastName, departmentId, salary).toString();
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployeeFromList(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.removeEmployee(firstName, lastName);
+    public String removeEmployeeFromList(@RequestParam String firstName, @RequestParam String lastName) {
+        return employeeService.removeEmployee(firstName, lastName).toString();
     }
 
-    @GetMapping("/print")
+    @GetMapping("")
     public String printList() {
         return employeeService.getEmployeeList().toString();
+    }
+
+    @GetMapping("/departments/max-salary")
+    public String getMaxSalaryByDepartment(@RequestParam int departmentId) {
+        return employeeService.getMaxSalaryByDepartment(departmentId).toString();
+    }
+
+    @GetMapping("/departments/min-salary")
+    public String getMinSalaryByDepartment(@RequestParam int departmentId) {
+        return employeeService.getMinSalaryByDepartment(departmentId).toString();
+    }
+
+    @GetMapping(value="/departments/all", params = { "departmentId" })
+    public String printAllByDepartment(@RequestParam(value = "departmentId") int departmentId) {
+        return employeeService.findAllByDepartment(departmentId).toString();
+    }
+
+    @GetMapping("/departments/all")
+    public StringBuilder printAll() {
+        return employeeService.printAllByDepartments();
     }
 }

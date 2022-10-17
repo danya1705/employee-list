@@ -1,6 +1,8 @@
 package pro.sky.java.course2.employeelist.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import pro.sky.java.course2.employeelist.exception.BadNamingException;
 import pro.sky.java.course2.employeelist.model.Employee;
 import pro.sky.java.course2.employeelist.exception.EmployeeAlreadyAddedException;
 import pro.sky.java.course2.employeelist.exception.EmployeeNotFoundException;
@@ -52,7 +54,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee addEmployee(String firstName, String lastName, int departmentId, double salary) {
 
-        Employee employee = new Employee(firstName, lastName, departmentId, salary);
+        checkNames(firstName, lastName);
+
+        Employee employee = new Employee(
+                StringUtils.capitalize(StringUtils.lowerCase(firstName)),
+                StringUtils.capitalize(StringUtils.lowerCase(lastName)),
+                departmentId,
+                salary);
 
         if (this.employeeList.contains(employee)) {
             throw new EmployeeAlreadyAddedException();
@@ -65,6 +73,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findEmployee(String firstName, String lastName) {
 
+        checkNames(firstName, lastName);
+
         Employee employee = new Employee(firstName, lastName);
 
         if (this.employeeList.contains(employee)) {
@@ -76,6 +86,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee removeEmployee(String firstName, String lastName) {
+
+        checkNames(firstName, lastName);
 
         Employee employee = new Employee(firstName, lastName);
 
@@ -127,5 +139,13 @@ public class EmployeeServiceImpl implements EmployeeService {
             result.append(findAllByDepartment(departmentId).toString()).append("<br>---------------------<br>");
         }
         return result;
+    }
+
+    @Override
+    public void checkNames(String firstName, String lastName) {
+        if (!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(lastName)) {
+            System.out.println(firstName + " " + lastName);
+            throw new BadNamingException();
+        }
     }
 }

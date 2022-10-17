@@ -20,4 +20,6 @@ public interface EmployeeService {
     List<Employee> findAllByDepartment(int departmentId);
 
     StringBuilder printAllByDepartments();
+
+    void checkNames(String firstName, String lastName);
 }

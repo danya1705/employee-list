@@ -23,4 +23,9 @@ public class CorrectExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleEmployeeStorageIsFullException() {
         return new ResponseEntity<>("ArrayIsFull", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = BadNamingException.class)
+    public ResponseEntity<String> handleBadNamingException() {
+        return new ResponseEntity<>("Incorrect naming for employee", HttpStatus.BAD_REQUEST);
+    }
 }
